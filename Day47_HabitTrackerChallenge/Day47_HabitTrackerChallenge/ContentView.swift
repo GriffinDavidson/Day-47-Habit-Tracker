@@ -5,12 +5,15 @@
 //  Created by Griffin Davidson on 10/11/20.
 //
 
+//To-do extras: if there are no habits (newly downloaded /
+//deleted all), show big blue button to create a new habit
+
 import SwiftUI
 
 struct UserHabits: Identifiable, Codable {
-    var title: String
-    var description: String
-    var timesCompleted: Int
+    let title: String
+    let description: String
+    let timesCompleted: Int
     var id = UUID()
 }
 
@@ -48,7 +51,7 @@ struct ContentView: View {
         NavigationView {
             List {
                 ForEach(habits.items) { index in
-                    NavigationLink(destination: DetailView(detailedHabit: habits)) {
+                    NavigationLink(destination: DetailView(title: index.title, description: index.description, timesCompleted: index.timesCompleted)) {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(index.title)
@@ -90,5 +93,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .preferredColorScheme(.light)
     }
 }

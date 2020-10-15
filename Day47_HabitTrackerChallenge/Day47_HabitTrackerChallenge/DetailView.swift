@@ -9,26 +9,35 @@ import SwiftUI
 
 struct DetailView: View {
     
-    let detailedHabit: Habits
     @State private var showingEditView = false
     
+    @State var title: String
+    @State var description: String
+    @State var timesCompleted: Int
+
     var body: some View {
-        Text("\(detailedHabit.items[0].description)")
-            .navigationBarTitle("\(detailedHabit.items[0].title)", displayMode: .inline)
+        Text("\(description)")
+            .navigationBarTitle("\(title)", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 showingEditView.toggle()
             }) {
                 Image(systemName: "square.and.pencil")
             })
             .sheet(isPresented: $showingEditView) {
-                AddView(habits: self.detailedHabit, title: detailedHabit.items[0].title, description: detailedHabit.items[0].description, timesCompleted: detailedHabit.items[0].timesCompleted, pageTitle: "Edit Habit", comingFromContentView: false)
-            }
+                AddView(habits: Habits(),
+                        title: self.title,
+                        description: self.description,
+                        timesCompleted: self.timesCompleted,
+                        pageTitle: "Edit Habit",
+                        comingFromContentView: false
+                    )}
         
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(detailedHabit: Habits())
+        DetailView(title: "", description: "", timesCompleted: 0)
+            .preferredColorScheme(.light)
     }
 }
