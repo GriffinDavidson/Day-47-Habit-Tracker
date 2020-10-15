@@ -11,9 +11,9 @@ struct DetailView: View {
     
     @State private var showingEditView = false
     
-    @State var title: String
-    @State var description: String
-    @State var timesCompleted: Int
+    var title: String
+    var description: String
+    var timesCompleted: Int
 
     var body: some View {
         Text("\(description)")

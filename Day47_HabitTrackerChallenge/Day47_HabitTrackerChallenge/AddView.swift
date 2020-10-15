@@ -15,13 +15,17 @@ struct AddView: View {
     @State var description: String
     @State var timesCompleted: Int
     
-    @State var pageTitle: String
-    @State var comingFromContentView: Bool
+    var pageTitle: String
+    var comingFromContentView: Bool
+    
+    func remove(at offsets: IndexSet) {
+        self.habits.items.remove(atOffsets: offsets)
+    }
     
     var body: some View {
         NavigationView {
             Form {
-                Section(footer: (comingFromContentView ? Text("") : Text("DEBUG: In Edit mode right now"))) {
+                Section {
                     TextField("Title", text: $title)
                     TextField("Description", text: $description)
                     Stepper(value: $timesCompleted, in: 1...100) {
