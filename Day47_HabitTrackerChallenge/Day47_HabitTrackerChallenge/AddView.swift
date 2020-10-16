@@ -18,10 +18,6 @@ struct AddView: View {
     var pageTitle: String
     var comingFromContentView: Bool
     
-    func remove(at offsets: IndexSet) {
-        self.habits.items.remove(atOffsets: offsets)
-    }
-    
     var body: some View {
         NavigationView {
             Form {
@@ -34,7 +30,7 @@ struct AddView: View {
                 }.font(.system(size: 17, weight: .regular))
             }
             .navigationBarTitle(pageTitle, displayMode: .inline)
-            .navigationBarItems(leading: Button("Close") {
+            .navigationBarItems(leading: Button("Cancel") {
                 self.presentationMode.wrappedValue.dismiss()
             },
             
@@ -59,6 +55,6 @@ struct AddView: View {
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
         AddView(habits: Habits(), title: "", description: "", timesCompleted: 1, pageTitle: "Add New Habit", comingFromContentView: true)
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
     }
 }

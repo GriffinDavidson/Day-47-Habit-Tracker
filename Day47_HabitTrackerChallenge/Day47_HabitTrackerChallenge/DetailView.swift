@@ -21,7 +21,7 @@ struct DetailView: View {
             .navigationBarItems(trailing: Button(action: {
                 showingEditView.toggle()
             }) {
-                Image(systemName: "square.and.pencil")
+                Text("Edit")
             })
             .sheet(isPresented: $showingEditView) {
                 AddView(habits: Habits(),
@@ -38,6 +38,6 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(title: "", description: "", timesCompleted: 0)
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
     }
 }

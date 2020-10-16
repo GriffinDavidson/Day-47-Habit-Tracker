@@ -44,7 +44,7 @@ class Habits: ObservableObject {
 
 struct ContentView: View {
     
-    @ObservedObject var habits = Habits()
+    @StateObject var habits = Habits()
     @State private var showingAddView = false
     
     var body: some View {
@@ -69,17 +69,16 @@ struct ContentView: View {
                 
             }
             .navigationBarTitle("Habitual")
-            .navigationBarItems(leading: EditButton(), trailing:
+            .navigationBarItems(leading:
                 Button(action: {
                     showingAddView.toggle()
                     
                 }) {
                     Image(systemName: "plus")
-                    
                 }
                 .sheet(isPresented: $showingAddView) {
                     AddView(habits: self.habits, title: "", description: "", timesCompleted: 1, pageTitle: "Add New Habit", comingFromContentView: true)
-                }
+                }, trailing: EditButton()
             )
         }
     }
@@ -93,6 +92,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
     }
 }
