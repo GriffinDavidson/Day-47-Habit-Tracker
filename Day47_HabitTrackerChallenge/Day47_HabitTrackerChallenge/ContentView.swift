@@ -53,17 +53,17 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(habits.items) { index in
-                    NavigationLink(destination: DetailView(title: index.title, description: index.description, timesCompleted: index.timesCompleted)) {
+                ForEach(habits.items.indices) { index in
+                    NavigationLink(destination: DetailView(habits: self.habits, index: index)) {
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(index.title)
+                                Text(habits.items[index].title)
                                     .font(.headline)
-                                Text(index.description)
+                                Text(habits.items[index].description)
                             }
                             Spacer()
                             
-                            Text("\(index.timesCompleted)")
+                            Text("\(habits.items[index].timesCompleted)")
                                 .padding(.trailing)
                         }
                     }

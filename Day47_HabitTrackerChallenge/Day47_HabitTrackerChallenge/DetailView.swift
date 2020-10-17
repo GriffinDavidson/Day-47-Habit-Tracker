@@ -10,14 +10,12 @@ import SwiftUI
 struct DetailView: View {
     
     @State private var showingEditView = false
+    @ObservedObject var habits: Habits
+    @State public var index: Int
     
-    var title: String
-    var description: String
-    var timesCompleted: Int
-
     var body: some View {
-        Text("\(description)")
-            .navigationBarTitle("\(title)", displayMode: .inline)
+        Text("\(habits.items[index].description)")
+            .navigationBarTitle("\(habits.items[index].title)", displayMode: .inline)
             .navigationBarItems(trailing: Button(action: {
                 showingEditView.toggle()
             }) {
@@ -25,9 +23,10 @@ struct DetailView: View {
             })
             .sheet(isPresented: $showingEditView) {
                 AddView(habits: Habits(),
-                        title: self.title,
-                        description: self.description,
-                        timesCompleted: self.timesCompleted,
+                        title: habits.items[index].title,
+                        description: habits.items[index].description,
+                        timesCompleted: habits.items[index].timesCompleted,
+                        index: index,
                         pageTitle: "Edit Habit",
                         comingFromContentView: false
                     )}
@@ -37,7 +36,7 @@ struct DetailView: View {
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
-        DetailView(title: "", description: "", timesCompleted: 0)
+        DetailView(habits: Habits(), index: 0)
             .preferredColorScheme(.light)
     }
 }
