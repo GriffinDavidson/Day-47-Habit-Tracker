@@ -19,6 +19,9 @@ struct UserHabits: Identifiable, Codable {
 
 class Habits: ObservableObject {
     @Published var items = [UserHabits]() {
+        
+        // I need to ditch UserDefaults
+        
         didSet {
             let encoder = JSONEncoder()
             
@@ -66,7 +69,6 @@ struct ContentView: View {
                     }
                 }
                 .onDelete(perform: removeItems)
-                
             }
             .navigationBarTitle("Habitual")
             .navigationBarItems(leading:
@@ -92,6 +94,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
     }
 }

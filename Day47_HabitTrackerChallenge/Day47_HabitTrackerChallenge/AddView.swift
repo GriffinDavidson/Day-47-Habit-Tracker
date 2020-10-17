@@ -41,6 +41,10 @@ struct AddView: View {
                 } else {
                     //I need to fix this, and migrate away from
                     //UserDefaults
+                    //
+                    //As of right now, it works fine if the habit is the first
+                    //item in the list, but if its not the first, the edits are
+                    //duplicated and the first habit is destroyed.
                     self.habits.items.remove(at: 0)
                     self.habits.items.append(userInput)
                 }
@@ -55,6 +59,6 @@ struct AddView: View {
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
         AddView(habits: Habits(), title: "", description: "", timesCompleted: 1, pageTitle: "Add New Habit", comingFromContentView: true)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
     }
 }

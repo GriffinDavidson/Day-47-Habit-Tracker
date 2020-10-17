@@ -38,6 +38,6 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         DetailView(title: "", description: "", timesCompleted: 0)
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
     }
 }
