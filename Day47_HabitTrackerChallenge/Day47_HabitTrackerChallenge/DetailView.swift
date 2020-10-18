@@ -14,22 +14,32 @@ struct DetailView: View {
     @State public var index: Int
     
     var body: some View {
-        Text("\(habits.items[index].description)")
-            .navigationBarTitle("\(habits.items[index].title)", displayMode: .inline)
-            .navigationBarItems(trailing: Button(action: {
-                showingEditView.toggle()
-            }) {
-                Text("Edit")
-            })
-            .sheet(isPresented: $showingEditView) {
-                AddView(habits: Habits(),
-                        title: habits.items[index].title,
-                        description: habits.items[index].description,
-                        timesCompleted: habits.items[index].timesCompleted,
-                        index: index,
-                        pageTitle: "Edit Habit",
-                        comingFromContentView: false
-                    )}
+        VStack {
+            Spacer()
+            
+            Text("\(habits.items[index].description)")
+                .padding(.horizontal)
+            
+            Spacer()
+            
+            Text("Completed: \(habits.items[index].timesCompleted) \(habits.items[index].timesCompleted == 1 ? "time" : "times")")
+                .padding(.bottom)
+                .navigationBarTitle("\(habits.items[index].title)", displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                    showingEditView.toggle()
+                }) {
+                    Text("Edit")
+                })
+                .sheet(isPresented: $showingEditView) {
+                    AddView(habits: Habits(),
+                            title: habits.items[index].title,
+                            description: habits.items[index].description,
+                            timesCompleted: habits.items[index].timesCompleted,
+                            index: index,
+                            pageTitle: "Edit Habit",
+                            comingFromContentView: false
+                )}
+        }
         
     }
 }

@@ -17,7 +17,7 @@ struct UserHabits: Identifiable, Codable {
     var id = UUID()
 }
 
-class Habits: ObservableObject {
+class Habits: ObservableObject, Identifiable {
     @Published var items = [UserHabits]() {
         
         // I need to ditch UserDefaults
@@ -53,7 +53,8 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(habits.items.indices) { index in
+                ForEach(habits.items.indices, id: \.self) { index in
+                    //Need to say id: \.id
                     NavigationLink(destination: DetailView(habits: self.habits, index: index)) {
                         HStack {
                             VStack(alignment: .leading) {
@@ -73,7 +74,11 @@ struct ContentView: View {
             .navigationBarTitle("Habitual")
             .navigationBarItems(leading:
                 Button(action: {
-                    showingAddView.toggle()
+                    //showingAddView.toggle()
+                    //disabled AddView to create autoentries for Debugging. Helps
+                    //Demonstrate the need to tell swift to identify by the UUID
+                    let userInput = UserHabits(title: "Test", description: "This is a test", timesCompleted: 1)
+                    self.habits.items.append(userInput)
                     
                 }) {
                     Image(systemName: "plus")

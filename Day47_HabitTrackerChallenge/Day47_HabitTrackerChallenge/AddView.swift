@@ -43,8 +43,10 @@ struct AddView: View {
                 } else {
                     self.habits.items.remove(at: index!)
                     self.habits.items.append(userInput)
+                        
                     //Now...How do I save edits rather than deleting
                     //And re-adding?
+                    //After I get swift to identify by UUID
                 }
                 self.presentationMode.wrappedValue.dismiss()
             }) {
@@ -56,7 +58,7 @@ struct AddView: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView(habits: Habits(), title: "", description: "", timesCompleted: 1, index: 0, pageTitle: "Add New Habit", comingFromContentView: true)
+        AddView(habits: Habits(), title: "", description: "", timesCompleted: 1, pageTitle: "Add New Habit", comingFromContentView: true)
             .preferredColorScheme(.light)
     }
 }
