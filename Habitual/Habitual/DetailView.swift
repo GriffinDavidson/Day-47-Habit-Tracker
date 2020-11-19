@@ -6,14 +6,24 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct DetailView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     @State private var showingDeleteAlert = false
+    @State private var showingEditView = false
     
     let habit: Habits
+    
+    private var dynamicText: String {
+        if habit.timesCompleted == 1 {
+            return "time"
+        } else {
+            return "times"
+        }
+    }
     
     var body: some View {
         VStack {
@@ -24,12 +34,12 @@ struct DetailView: View {
             
             Spacer()
             
-            Text("\(habit.timesCompleted)")
+            Text("Completed: \(habit.timesCompleted) \(dynamicText) ")
                 .padding(.bottom)
         }
         .navigationBarTitle(habit.title ?? "Unknown Title", displayMode: .inline)
         .navigationBarItems(trailing: VStack {
-                                Menu("Edit...") {
+                                Menu("\(Image(systemName: "ellipsis.circle"))") {
                                     Button(action: {
                                         showingDeleteAlert.toggle()
                                     }) {
@@ -38,22 +48,25 @@ struct DetailView: View {
                                     }
                                     
                                     Button(action: {
-                                        //Do Something
+                                        showingEditView.toggle()
                                     }) {
                                         Text("Edit Habit")
-                                        Image(systemName: "square.and.pencil")
+                                        Image(systemName: "highlighter")
                                     }
-                                    .disabled(true)
                                 }
                             }
 
                             .alert(isPresented: $showingDeleteAlert) {
                                 Alert(title: Text("Delete Habit"),
-                                    message: Text("You are about to delete your \"\(habit.title ?? "NONAME")\" habit.\nAre you sure?"),
+                                    message: Text("You are about to delete your habit named \"\(habit.title ?? "NONAME")\".\nAre you sure?"),
                                     primaryButton: .cancel(),
                                     secondaryButton: .destructive(Text("Delete")) {
                                         deleteHabit()
                                     })
+                            }
+        
+                            .sheet(isPresented: $showingEditView) {
+                                AddView(title: habit.title ?? "", description: habit.body ?? "", timesCompleted: habit.timesCompleted, comingFromDetailView: true).environment(\.managedObjectContext, self.moc)
                             }
         )
     }
@@ -68,12 +81,16 @@ struct DetailView: View {
 }
 
 struct DetailView_Previews: PreviewProvider {
+    static let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    
     static var previews: some View {
-        let previewHabit = Habits()
+        let previewHabit = Habits(context: moc)
         previewHabit.title = "Demo"
         previewHabit.body = "This is a demo"
         previewHabit.timesCompleted = Int16(1)
         
-        return DetailView(habit: previewHabit)
+        return NavigationView {
+            DetailView(habit: previewHabit)
+        }
     }
 }

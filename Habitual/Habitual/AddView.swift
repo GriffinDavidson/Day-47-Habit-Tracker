@@ -12,17 +12,29 @@ struct AddView: View {
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var title = ""
-    @State private var description = ""
-    @State private var timesCompleted = 1
+    @State var title: String
+    @State var description: String
+    @State var timesCompleted: Int16
     
-    var isDisabled: Bool {
+    let comingFromDetailView: Bool
+    // I can use this variable also to choose between saving a new habit and overwriting one
+    
+    private var pageTitle: String {
+        switch comingFromDetailView {
+        case true: return "Edit Habit"
+        case false: return "Add New Habit"
+        }
+    }
+    
+    private var isDisabled: Bool {
         if title.isEmpty || description.isEmpty {
             return true
         } else {
             return false
         }
     }
+    
+    
     
     var body: some View {
         NavigationView {
@@ -39,14 +51,17 @@ struct AddView: View {
                 }
             }
             .font(.body)
-            .navigationBarTitle("Add New Habit", displayMode: .inline)
+            .navigationBarTitle(pageTitle, displayMode: .inline)
             .navigationBarItems(leading: Button("Cancel") {
                 self.presentationMode.wrappedValue.dismiss()
             }, trailing: Button(action: {
+                
+                 //How can I overwrite already saved data?
+                
                 let newHabit = Habits(context: self.moc)
                 newHabit.title = self.title
                 newHabit.body = self.description
-                newHabit.timesCompleted = Int16(self.timesCompleted)
+                newHabit.timesCompleted = self.timesCompleted
                 
                 try? self.moc.save()
                 
@@ -60,6 +75,6 @@ struct AddView: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView()
+        AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false)
     }
 }

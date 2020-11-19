@@ -37,6 +37,7 @@ struct ContentView: View {
                     }
                 }.onDelete(perform: delete)
             }
+            .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Habitual")
             .navigationBarItems(leading: EditButton(), trailing:
                 Button(action: {
@@ -50,7 +51,7 @@ struct ContentView: View {
                     Image(systemName: "plus")
                 }
                 .sheet(isPresented: $showingAddView) {
-                    AddView().environment(\.managedObjectContext, self.moc)
+                    AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false).environment(\.managedObjectContext, self.moc)
                 }
             )
         }
