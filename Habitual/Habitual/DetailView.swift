@@ -12,6 +12,7 @@ struct DetailView: View {
     
     @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
+    
     @State private var showingDeleteAlert = false
     @State private var showingEditView = false
     
