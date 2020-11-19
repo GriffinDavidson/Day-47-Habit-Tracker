@@ -19,6 +19,8 @@ struct AddView: View {
     let comingFromDetailView: Bool
     // I can use this variable also to choose between saving a new habit and overwriting one
     
+    let habit: Habits
+    
     private var pageTitle: String {
         switch comingFromDetailView {
         case true: return "Edit Habit"
@@ -33,8 +35,6 @@ struct AddView: View {
             return false
         }
     }
-    
-    
     
     var body: some View {
         NavigationView {
@@ -56,7 +56,7 @@ struct AddView: View {
                 self.presentationMode.wrappedValue.dismiss()
             }, trailing: Button(action: {
                 
-                 //How can I overwrite already saved data?
+                if comingFromDetailView { moc.delete(habit) }
                 
                 let newHabit = Habits(context: self.moc)
                 newHabit.title = self.title
@@ -64,8 +64,8 @@ struct AddView: View {
                 newHabit.timesCompleted = self.timesCompleted
                 
                 try? self.moc.save()
-                
                 self.presentationMode.wrappedValue.dismiss()
+                
             }) {
                 Text("Save")
             }.disabled(isDisabled))
@@ -75,6 +75,6 @@ struct AddView: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false)
+        AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false, habit: Habits())
     }
 }

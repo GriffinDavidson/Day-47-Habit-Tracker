@@ -51,7 +51,7 @@ struct ContentView: View {
                     Image(systemName: "plus")
                 }
                 .sheet(isPresented: $showingAddView) {
-                    AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false).environment(\.managedObjectContext, self.moc)
+                    AddView(title: "", description: "", timesCompleted: 1, comingFromDetailView: false, habit: Habits()).environment(\.managedObjectContext, self.moc)
                 }
             )
         }

@@ -41,17 +41,17 @@ struct DetailView: View {
         .navigationBarItems(trailing: VStack {
                                 Menu("\(Image(systemName: "ellipsis.circle"))") {
                                     Button(action: {
-                                        showingDeleteAlert.toggle()
-                                    }) {
-                                        Text("Delete Habit")
-                                        Image(systemName: "trash")
-                                    }
-                                    
-                                    Button(action: {
                                         showingEditView.toggle()
                                     }) {
                                         Text("Edit Habit")
                                         Image(systemName: "highlighter")
+                                    }
+                                    
+                                    Button(action: {
+                                        showingDeleteAlert.toggle()
+                                    }) {
+                                        Text("Delete Habit")
+                                        Image(systemName: "trash")
                                     }
                                 }
                             }
@@ -66,7 +66,7 @@ struct DetailView: View {
                             }
         
                             .sheet(isPresented: $showingEditView) {
-                                AddView(title: habit.title ?? "", description: habit.body ?? "", timesCompleted: habit.timesCompleted, comingFromDetailView: true).environment(\.managedObjectContext, self.moc)
+                                AddView(title: habit.title ?? "", description: habit.body ?? "", timesCompleted: habit.timesCompleted, comingFromDetailView: true, habit: habit).environment(\.managedObjectContext, self.moc)
                             }
         )
     }
